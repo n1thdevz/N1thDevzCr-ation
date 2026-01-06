@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ma Boutique Roblox</title>
+  <style>
+    body { margin:0; font-family: system-ui, Arial; background: linear-gradient(#020617,#0f172a); color:#fff; }
+    .container{ max-width:1100px; margin:auto; padding:24px; }
+    header { text-align:center; margin-bottom:18px; }
+    h1{ font-size:28px; margin-bottom:6px; color: #ffffff; }
+    p.subtitle{ color:#cbd5e1; }
+    
+    .search{ margin:20px auto; max-width:420px; }
+    .search input{ width:100%; padding:10px 12px; border-radius:12px; border:1px solid #1e293b; background:#020617; color:#e5e7eb; outline: none; }
+    .search input:focus { border-color: #3b82f6; }
+
+    .grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
+    
+    .card{ background:#0f172a; border:1px solid #1e293b; border-radius:18px; overflow:hidden; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+    .card img{ width:100%; height:180px; object-fit:cover; background: #1e293b; }
+    
+    .card-content{ padding:16px; }
+    .card h3{ margin:0 0 8px; font-size:20px; }
+    .card p{ color:#94a3b8; font-size:14px; line-height: 1.4; height: 40px; overflow: hidden; }
+    
+    .buy-btn {
+      display: block;
+      background: #00b06f; /* Vert Roblox */
+      color: white;
+      text-align: center;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: background 0.2s;
+    }
+    .buy-btn:hover { background: #008a57; }
+
+    .tags{ margin-top:12px; display:flex; flex-wrap:wrap; gap:6px; }
+    .tag{ padding:4px 8px; border-radius:8px; background:#1e293b; font-size:11px; color: #60a5fa; }
+    
+    footer{ text-align:center; margin-top:50px; padding: 20px; color:#64748b; font-size:12px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Ma Boutique Roblox</h1>
+      <p class="subtitle">Achète mes créations exclusives en Robux 💸</p>
+    </header>
+
+    <div class="search">
+      <input id="search" type="text" placeholder="Rechercher un pack, une arme...">
+    </div>
+
+    <div id="items" class="grid"></div>
+    <p id="empty" style="display:none; text-align:center; color:#94a3b8; margin-top:50px;">Aucun objet trouvé.</p>
+
+    <footer>
+      © 2024 - Créations Roblox - Hébergé sur GitHub
+    </footer>
+  </div>
+
+  <script>
+    const items = [
+      {
+        title: "Tree Pack",
+        description: "Ensemble complet d'arbres low-poly (Pins, Chênes, Bouleaux).",
+        image: "image_5c534c.jpg", 
+        link: "https://www.roblox.com/catalog/TON_LIEN_ICI", // <--- METS TON LIEN ROBLOX ICI
+        tags: ["nature", "low-poly", "environnement"]
+      },
+      {
+        title: "Épée légendaire",
+        description: "Arme avec effets de particules et animations personnalisées.",
+        image: "https://placehold.co/600x400?text=Sword+Preview",
+        link: "https://www.roblox.com/catalog/TON_LIEN_ICI",
+        tags: ["arme", "rare"]
+      }
+    ];
+
+    const list = document.getElementById("items");
+    const searchInput = document.getElementById("search");
+
+    function render(data){
+      list.innerHTML = data.map(item => `
+        <div class="card">
+          <img src="${item.image}" alt="${item.title}">
+          <div class="card-content">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <div class="tags">
+              ${item.tags.map(t=>`<span class='tag'>#${t}</span>`).join('')}
+            </div>
+            <a href="${item.link}" target="_blank" class="buy-btn">Acheter en Robux</a>
+          </div>
+        </div>
+      `).join("");
+      document.getElementById("empty").style.display = data.length ? "none" : "block";
+    }
+
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.toLowerCase();
+      render(items.filter(i => i.title.toLowerCase().includes(q) || i.tags.some(t=>t.includes(q))));
+    });
+
+    render(items);
+  </script>
+</body>
+</html>
